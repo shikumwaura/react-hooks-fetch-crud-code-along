@@ -1,11 +1,27 @@
 import React, { useState } from "react";
 
-function ItemForm() {
+function ItemForm({ onAddItem }) {
   const [name, setName] = useState("");
   const [category, setCategory] = useState("Produce");
 
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!name.trim()) return;
+
+    const itemData = {
+      name,
+      category,
+      isInCart: false,
+    };
+
+    onAddItem(itemData);
+
+    setName("");
+    setCategory("Produce");
+  }
+
   return (
-    <form className="NewItem">
+    <form className="NewItem" onSubmit={handleSubmit}>
       <label>
         Name:
         <input
@@ -13,6 +29,7 @@ function ItemForm() {
           name="name"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          required
         />
       </label>
 
